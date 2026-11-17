@@ -18,3 +18,56 @@ async function sendMessage() {
 
     // 3. Buat bubble kosong untuk balasan AI yang akan masuk secara streaming
     const botBubble = appendMessage("bot", "");
+
+    try {
+        const response = await fetch("/api/chat", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ messages: messageHistory })
+        });
+
+        if (!response.ok) {
+            throw new Error("Terjadi kesalahan pada server");
+        }
+
+        // 4. Proses membaca streaming response dari backend
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder();
+        let botFullResponse = "";
+
+        while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+
+            const chunk = decoder.decode(value, { stream: true });
+            const lines = chunk.split("\n");
+
+            for (const line of lines) {
+                const trimmedLine = line.trim();
+                if (trimmedLine.startsWith("data:")) {
+                    const data = trimmedLine.slice(5).trim();
+                    if (data === "[DONE]") break;
+
+                    try {
+                        // Mengubah string JSON (misal: "Halo") menjadi teks biasa
+                        const parsedData = JSON.parse(data);
+                        botFullResponse += parsedData;
+                        // Update teks di dalam bubble AI secara bertahap
+                        botBubble.textContent = botFullResponse;
+                        // Scroll otomatis ke bawah
+                        chatBox.scrollTop = chatBox.scrollHeight;
+                    } catch (e) {
+                        console.error("Error parsing chunk:", e);
+                    }
+                }
+            }
+        }
+
+        // 5. Simpan balasan final AI ke riwayat
+        messageHistory.push({ role: "assistant", content: botFullResponse });
+
+    } catch (error) {
+        botBubble.textContent = "Maaf, server sedang sibuk atau terjadi kesalahan.";
+        console.error(error);
+    }
+}
