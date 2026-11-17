@@ -109,3 +109,8 @@ app.post("/api/chat", async (req, res) => {
         }
     }
 });
+
+// Menambahkan app.listen agar server bisa berjalan
+app.listen(PORT, () => {
+    console.log(`Server berjalan di port ${PORT}`);
+});
