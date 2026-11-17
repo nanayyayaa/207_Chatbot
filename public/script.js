@@ -87,3 +87,9 @@ function appendMessage(sender, text) {
     
     return bubbleDiv; // Mengembalikan elemen untuk di-update saat streaming
 }
+
+// Event listener untuk tombol kirim dan enter
+sendBtn.addEventListener("click", sendMessage);
+userInput.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") sendMessage();
+});
