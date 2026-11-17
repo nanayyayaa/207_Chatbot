@@ -81,3 +81,40 @@ body {
     background-color: #1f1f1f;
     color: #ffffff;
 }
+
+.input-area {
+    display: flex;
+    padding: 15px;
+    background-color: #ffffff;
+    border-top: 1px solid #eeeeee;
+    gap: 10px;
+}
+
+#userInput {
+    flex: 1;
+    padding: 12px;
+    border: 1px solid #cccccc;
+    border-radius: 6px;
+    outline: none;
+    font-size: 0.95rem;
+}
+
+#userInput:focus {
+    border-color: #1f1f1f;
+}
+
+#sendBtn {
+    background-color: #1f1f1f;
+    color: #ffffff;
+    border: none;
+    padding: 0 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: bold;
+    transition: background 0.2s;
+}
+
+#sendBtn:hover {
+    background-color: #333333;
+}
