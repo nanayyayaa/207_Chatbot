@@ -71,3 +71,19 @@ async function sendMessage() {
         console.error(error);
     }
 }
+
+// Fungsi pembantu untuk membuat elemen bubble chat baru
+function appendMessage(sender, text) {
+    const msgDiv = document.createElement("div");
+    msgDiv.classList.add("message", sender);
+    
+    const bubbleDiv = document.createElement("div");
+    bubbleDiv.classList.add("bubble");
+    bubbleDiv.textContent = text;
+    
+    msgDiv.appendChild(bubbleDiv);
+    chatBox.appendChild(msgDiv);
+    chatBox.scrollTop = chatBox.scrollHeight;
+    
+    return bubbleDiv; // Mengembalikan elemen untuk di-update saat streaming
+}
