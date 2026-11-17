@@ -114,3 +114,6 @@ app.post("/api/chat", async (req, res) => {
 app.listen(PORT, () => {
     console.log(`Server berjalan di port ${PORT}`);
 });
+
+// TAMBAHKAN BARIS INI DI PALING BAWAH KHUSUS UNTUK VERCEL
+module.exports = app;
